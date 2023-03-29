@@ -143,6 +143,7 @@ where not exists ( select *
                     where cart_member = a.mem_id);
                     
 --직업중 회원이 가장 많은 직업의 최다 구매 상품(수량)을 출력하시오
+/*
 select prod_id , prod_name
 from prod
 where prod_id 
@@ -169,7 +170,7 @@ IN(
             )
         where rownum <=1
     )group by CART_PROD
-;
+;*/
 select * from
 (
     select cart_prod , sum(cart_QTY), prod_name from cart c, member m,prod p
