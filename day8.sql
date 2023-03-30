@@ -188,7 +188,7 @@ ON(ex_a.emp_id = ex_b.emp_id); -- 양쪽 널값 모두 포함
 -- 2000     153     Christopher Olsen   144459.3
 -- 2001     173         Sundita Kumar   426018.7
 
-SELECT front.soldyear,front.empId,front.empname,front.soldamount
+SELECT front.soldyear,front.empId,front.empname,front.soldamount --empname을 스칼라 쿼리로 적용할 수 있다.
 
 FROM (
     SELECT      substr(b.sales_month,0,4) as soldYear
@@ -203,7 +203,7 @@ FROM (
     GROUP BY    substr(b.sales_month,0,4),a.emp_name,a.employee_id
     ORDER BY    1
     ) front
-INNER JOIN
+INNER JOIN -- join 대신 where (tables) in 을 활용하여  쓸 수 도 있으나 쿼리 실행 두배 가량 느리다.
     (SELECT
             soldYear,max(soldAmount) maxSoldPerEmp
     FROM 
