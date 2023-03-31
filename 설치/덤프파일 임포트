@@ -1,0 +1,5 @@
+-- 덤프파일의 정보를 java 계정에 임포트 
+
+-- cd Downloads
+-- imp system/oracle file=expjava2.dmp fromuser=java touser=java
+-- exp system/oracle file='expjava3.dmp
