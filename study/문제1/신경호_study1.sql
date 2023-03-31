@@ -58,7 +58,7 @@ order by 2 desc, 1 asc;
 --;
 
 SELECT  to_char(first_reg_date,'DAY') as 요일 
-        , count(*) 
+        , count(*) as 건수
 from customer 
 group by to_char(first_reg_date,'DAY') 
 order by 2 desc;
@@ -67,7 +67,7 @@ order by 2 desc;
 -- 남녀 인원수를 출력하시오 
 시작시간 :  2023-03-31 15:07:40
 종료시간 :  2023-03-31 15:18:15
-SELECT nvl(a.gender,'합계') , count(*) cnt
+SELECT nvl(a.gender,'합계')as gender , count(customer_id) cnt
 FROM
     (SELECT case when sex_code = 'M' then '남자' 
     when sex_code = 'F' then '여자'
@@ -75,8 +75,6 @@ FROM
     from customer ) a
 GROUP BY rollup(a.gender)
 ;
-
-
 ---------------------------------------------------------------------
 ----------5번 문제 ---------------------------------------------------
 --월별 예약 취소 건수를 출력하시오 (많은 달 부터 출력)
@@ -169,11 +167,11 @@ from customer where sex_code is not null and birth is not null;
 --매출이력이 있는 고객의 주소, 우편번호, 해당지역 고객수를 출력하시오
 시작시간 : 2023-03-31 16:56:20
 종료시간 : 2023-03-31 17:05:18
-select address_detail,count(distinct customer_id )
+select address_detail as "고객의 주소",zip_code 우편번호,count(distinct customer_id ) as 고객수
 from address inner join customer using (zip_code) 
 inner join reservation using(customer_id) 
 inner join order_info using(reserv_no)
-group by address_detail
-order by 2 desc;
+group by address_detail,zip_code
+order by 3 desc;
 
 ----------------------------------------------------------------------------
