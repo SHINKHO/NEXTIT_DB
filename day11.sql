@@ -224,7 +224,9 @@ REGION      GUBUN       201210          201211           201310       201311
 서울          기타대출    202557.1(61%)   202887.5(61%)   2004918.8(62%) 205644.3(62%)
 세종          기타대출    1655.1(65%)     1766.3(64%)     2583.7(62%)     2653.4(62%)
 세종        주택담보대출   907.6(35%)      1002.9(36%)      1557.8(38%)     1611.4(38%)
-*/SELECT * 
+*/
+--pivot 개념 필요
+/*SELECT *
     FROM
     (SELECT  region,
             gubun,
@@ -243,5 +245,26 @@ REGION      GUBUN       201210          201211           201310       201311
         and region in ('대전','서울','세종')
         order by period desc) a
     ) b
-    WHERE partitioned = 1 and region = '대전'
 ;
+*/
+--hit : sum 으로 풀기 
+SELECT distinct *
+FROM (SELECT 
+            region,
+            gubun,
+            sum(case when period like '201210' then amt else 0 end) over(partition by region,gubun) as "201210",
+            sum(case when period like '201211' then amt else 0 end) over(partition by region,gubun) as "201211",
+            sum(case when period like '201310' then amt else 0 end) over(partition by region,gubun) as "201310",
+            sum(case when period like '201311' then amt else 0 end) over(partition by region,gubun) as "201311"
+    FROM
+        (select  period,
+                region,
+                gubun,
+                loan_jan_amt amt
+        from kor_loan_status
+        where region in ('대전','서울','세종') and period in ('201210','201211','201310','201311')
+        )a
+    )
+order by region;
+--where period like '201210%' and region IN('대전','서울','세종')
+--group by region,gubun;
