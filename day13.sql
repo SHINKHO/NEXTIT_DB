@@ -22,7 +22,7 @@ FROM(
 ;
 
 --2
-
+--고객에게 해당 데이터가 없어도 없다고 떠야 하기 때문에 outer join 을 걸어준다.
 SELECT *
 FROM(
     SELECT cus.customer_id,
@@ -33,11 +33,11 @@ FROM(
             ori.quantity,
             ori.sales
     FROM customer cus
-        INNER JOIN reservation res
+        LEFT JOIN reservation res
         ON(cus.customer_id = res.customer_id)
-        INNER JOIN order_info ori
+        LEFT JOIN order_info ori
         ON(res.reserv_no = ori.reserv_no)
-        INNER JOIN item it
+        LEFT JOIN item it
         ON(ori.item_id = it.item_id)
     WHERE customer_name LIKE :고객명
     ORDER BY customer_name
