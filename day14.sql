@@ -96,7 +96,8 @@ BEGIN
     --2.올해년도와 같은지 비교하는 조건문 IF & 학번생성
         vn_make_num := to_char(vn_year,'YYYY');
         IF substr(vn_max_num,0,4) = vn_make_num
-        THEN vn_make_num := vn_make_num || vn_max_num+1; 
+        THEN vn_make_num := vn_make_num || vn_max_num+1;
+        END IF;
     
     --3.INSERT
     INSERT INTO 학생(학번,이름,전공,생년월일)
