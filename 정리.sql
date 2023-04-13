@@ -132,5 +132,5 @@
             SELECT *
             FROM 학생 a
             LEFT JOIN 수강내역 b
-            ON(a학번 - b.학번);
+            ON(a학번 = b.학번);
 */
